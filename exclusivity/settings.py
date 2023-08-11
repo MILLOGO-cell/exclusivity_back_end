@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config
 import datetime, os
+from .jazzmin import JAZZMIN_SETTINGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,23 +11,22 @@ SECRET_KEY = "django-insecure-x_pu4!vwy@jrsv5e8ue)vc2!0y+^0!^^$%02m)(e(!x@y2+piv
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SITE_ID = 1
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-]
+
+
 # Auth config +
 AUTH_USER_MODEL = "accounts.User"
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
 # SWAGGER SETTINGS
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
 }
-
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-]
+# ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
+SITE_ID = 1
 
 CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ALLOW_CREDENTIALS = True
@@ -38,6 +38,7 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,21 +50,22 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "accounts.apps.AccountsConfig",
-    "subscriptions",
+    # "subscriptions",
     "feedbacks",
     "posts",
     "payments",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "exclusivity.urls"
@@ -124,7 +126,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "fr-fr"
+LANGUAGES = [
+    ("fr", "French"),
+    ("en", "English"),  # Ajoutez d'autres langues si nécessaire
+    # ...
+]
+LANGUAGE_CODE = "fr"
 
 TIME_ZONE = "UTC"
 
@@ -137,6 +144,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "img"),
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -148,7 +161,18 @@ EMAIL_PORT = config("EMAIL_PORT", cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
+REST_FRAMEWORK = {
+    "NON_FIELD_ERRORS_KEY": "error",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    # "PAGE_SIZE": 10,
+}
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=120),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=1440),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
+# JAZZMIN
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS

@@ -1,9 +1,9 @@
-from django.urls import path, include
-from .views import SubscriptionViewSet
-from rest_framework import routers
+# from django.urls import path, include
+# from .views import SubscriptionViewSet
+# from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register("abonnement", SubscriptionViewSet)
+# router = routers.DefaultRouter()
+# router.register("abonnement", SubscriptionViewSet)
 
 
-urlpatterns = [path("", include(router.urls))]
+# urlpatterns = [path("", include(router.urls))]

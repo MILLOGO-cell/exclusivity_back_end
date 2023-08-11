@@ -8,6 +8,7 @@ from django.utils.text import slugify
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 import uuid
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
 
 
 class UserManager(BaseUserManager):
@@ -24,6 +25,7 @@ class UserManager(BaseUserManager):
             email=email, username=username, user_type=user_type, **extra_fields
         )
         user.set_password(password)
+
         user.save(using=self._db)
         return user
 
@@ -51,17 +53,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         ("creator", "Créateur"),
         ("visitor", "Visiteur"),
     )
-    username = models.CharField(max_length=150, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True, unique=True)
+    telephone = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
-    phone = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(upload_to="user_images/", null=True, blank=True)
     user_type = models.CharField(
         max_length=10, choices=USER_TYPE_CHOICES, default="visitor"
     )
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    verification_code_expiration = models.DateTimeField(null=True, blank=True)
     is_superuser = models.BooleanField(default=False)
     interests = models.CharField(max_length=255, blank=True)
     expertise = models.CharField(max_length=255, blank=True)
@@ -70,10 +75,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     subscription_active = models.BooleanField(default=False)
     activation_token = models.UUIDField(default=uuid.uuid4, editable=False)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
+
+    class Meta:
+        verbose_name = "Utilisateur"
+        verbose_name_plural = "Utilisateurs"
 
     def has_perm(self, perm, obj=None):
         return self.is_superuser
@@ -94,7 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_subscribers(self):
         if self.is_creator:
-            return User.objects.filter(subscriptions__creator=self)
+            return self.subscriptions.all()
         return User.objects.none()
 
     def generate_username(self, email):
@@ -117,7 +126,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         Retourne True si l'activation réussit, False sinon.
         """
         if token_generator.check_token(self, token):
-            self.is_active = True
+            self.is_verified = True
             self.save()
             return True
         return False
@@ -134,14 +143,38 @@ class User(AbstractBaseUser, PermissionsMixin):
         return False
 
     def get_subscriptions_count(self):
-        return self.subscriptions.count()
+        return self.user_subscriptions.count()
 
     def get_subscriptions_details(self):
-        return self.subscriptions.all()
+        return self.user_subscriptions.all()
 
     # Méthodes pour les abonnés d'un créateur
     def get_followers_count(self):
-        return self.subscribers.count()
+        if self.is_creator:
+            return self.user_followers.count()
+        return 0
 
     def get_followers_details(self):
         return self.subscribers.all()
+
+    def get_subscribed_creators_ids(self):
+        if not self.is_creator:
+            return self.user_subscriptions.values_list("creator_id", flat=True)
+        return []
+
+
+class Subscription(models.Model):
+    subscriber = models.ForeignKey(
+        get_user_model(), related_name="user_subscriptions", on_delete=models.CASCADE
+    )
+    creator = models.ForeignKey(
+        get_user_model(), related_name="user_followers", on_delete=models.CASCADE
+    )
+    Subscription_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.subscriber.email} s'abonne à {self.creator.email}"
+
+    class Meta:
+        verbose_name = "Abonnement"  # Nom en français pour le modèle
+        verbose_name_plural = "Abonnements"
