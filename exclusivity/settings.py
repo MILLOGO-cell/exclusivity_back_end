@@ -27,7 +27,7 @@ SWAGGER_SETTINGS = {
 
 ALLOWED_HOSTS = ["https://web-production-abe3.up.railway.app", "127.0.0.1"]
 SITE_ID = 1
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://web-production-abe3.up.railway.app",
     "http://127.0.0.1:3000",
