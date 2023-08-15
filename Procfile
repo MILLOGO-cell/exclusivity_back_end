@@ -1,1 +1,1 @@
-web: python manage.py makemigrations accounts && python manage.py makemigrations posts && python manage.py makemigrations payments && python manage.py makemigrations feedbacks  && python manage.py migrate && gunicorn exclusivity.wsgi -b 0.0.0.0:$PORT --log-level debug
+web: python python manage.py migrate && gunicorn exclusivity.wsgi -b 0.0.0.0:$PORT --log-level debug
