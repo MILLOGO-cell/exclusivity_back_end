@@ -25,17 +25,19 @@ SWAGGER_SETTINGS = {
     }
 }
 # ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = ["https://web-production-ab72.up.railway.app"]
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://web-production-abe3.up.railway.app", "127.0.0.1"]
 SITE_ID = 1
 
-CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = [
-#     # "http://localhost:3000",
-#     # "http://127.0.0.1:3000",
-#     "https://web-production-ab72.up.railway.app/"
-# ]
+ALLOWED_HOSTS = ["web-production-abe3.up.railway.app", "127.0.0.1"]
+SITE_ID = 1
+
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://web-production-abe3.up.railway.app",
+    "http://127.0.0.1:3000",
+]
+
 
 # Application definition
 
@@ -52,7 +54,6 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "accounts.apps.AccountsConfig",
-    # "subscriptions",
     "feedbacks",
     "posts",
     "payments",
