@@ -26,7 +26,7 @@ SWAGGER_SETTINGS = {
 }
 # ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["https://exclusivity-front-end.vercel.app/"]
+ALLOWED_HOSTS = ["https://web-production-ab72.up.railway.app/"]
 SITE_ID = 1
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -34,7 +34,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000",
     # "http://127.0.0.1:3000",
-    "https://exclusivity-front-end.vercel.app/"
+    "https://web-production-ab72.up.railway.app/"
 ]
 
 # Application definition
