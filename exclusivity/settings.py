@@ -25,8 +25,8 @@ SWAGGER_SETTINGS = {
     }
 }
 # ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["https://web-production-ab72.up.railway.app"]
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["https://web-production-ab72.up.railway.app"]
 SITE_ID = 1
 
 CORS_ALLOW_ALL_ORIGINS = True
