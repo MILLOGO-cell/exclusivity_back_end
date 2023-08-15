@@ -28,8 +28,8 @@ SWAGGER_SETTINGS = {
 # ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = ["https://web-production-abe3.up.railway.app", "127.0.0.1"]
 SITE_ID = 1
-
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app", "127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
+# ALLOWED_HOSTS = ["web-production-abe3.up.railway.app", "127.0.0.1"]
 SITE_ID = 1
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -147,7 +147,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_DIRS = [
