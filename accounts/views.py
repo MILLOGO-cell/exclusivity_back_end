@@ -48,6 +48,7 @@ from rest_framework import status, viewsets
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView
 from rest_framework import filters
+from django.shortcuts import render
 
 
 class UserSearchView(ListAPIView):
@@ -199,7 +200,7 @@ class CreateUserView(APIView):
                 user.save()
 
                 current_site = get_current_site(request).domain
-                activation_link = f"http://{current_site}/api/utilisateurs/verification-email/{user.pk}/{activation_token}"
+                activation_link = f"{current_site}/api/utilisateurs/verification-email/{user.pk}/{activation_token}"
                 send_activation_email(
                     user.username, email, activation_link
                 )  # Fonction pour envoyer l'e-mail
@@ -293,17 +294,20 @@ class VerifyEmailView(APIView):
         if str(user.activation_token) == token:
             user.is_verified = True
             user.save()
-            return Response(
-                {"message": "Votre compte a été activé avec succès."},
-                status=status.HTTP_200_OK,
-            )
+            template = "accounts/activation_result.html"
+            message = "Votre compte a été activé avec succès."
+            # return Response(
+            #     {"message": "Votre compte a été activé avec succès."},
+            #     status=status.HTTP_200_OK,
+            # )
         else:
-            print(f"Generated Token: {user.generate_activation_token()}")
-            print(f"Received Token: {token}")
-            return Response(
-                {"message": "Le lien d'activation est invalide."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            template = "accounts/activation_result.html"
+            message = "Le lien d'activation est invalide ou a expiré. Veuillez réessayer ou contacter le support."
+            # return Response(
+            #     {"message": "Le lien d'activation est invalide."},
+            #     status=status.HTTP_400_BAD_REQUEST,
+            # )
+        return render(request, template, {"message": message})
 
 
 class RequestPasswordResetView(APIView):
