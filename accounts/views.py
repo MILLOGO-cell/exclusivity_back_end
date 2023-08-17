@@ -60,7 +60,7 @@ class UserSearchView(ListAPIView):
 
 class UserListView(APIView):
     def get(self, request):
-        users = User.objects.all()
+        users = User.objects.filter(is_superuser=False)
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
