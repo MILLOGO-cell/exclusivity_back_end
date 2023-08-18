@@ -22,7 +22,9 @@ JAZZMIN_SETTINGS = {
     "copyright": "Exclusivity",
     # List of model admins to search from the search bar, search bar omitted if excluded
     # If you want to use a single search field you dont need to use a list, you can use a simple string
-    "search_model": ["accounts.User", "auth.Group"],
+    "search_model": [
+        "accounts.User",
+    ],
     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
     "user_avatar": None,
     ############
@@ -88,7 +90,7 @@ JAZZMIN_SETTINGS = {
     "icons": {
         "accounts": "fas fa-users-cog",
         "accounts.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+        # "auth.Group": "fas fa-users",
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-chevron-circle-right",
@@ -121,7 +123,7 @@ JAZZMIN_SETTINGS = {
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {
         "accounts.user": "collapsible",
-        "auth.group": "vertical_tabs",
+        # "auth.group": "vertical_tabs",
     },
     "language_chooser": "true",
 }
