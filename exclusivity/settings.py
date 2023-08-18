@@ -28,7 +28,7 @@ SWAGGER_SETTINGS = {
 }
 # ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
 SITE_ID = 1
 CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "whitenoise.runserver_nostatic",
     "django.contrib.sites",
     "drf_yasg",
     "rest_framework",
@@ -158,7 +159,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
