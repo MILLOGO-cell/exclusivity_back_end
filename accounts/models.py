@@ -74,7 +74,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     subscription_expiry = models.DateTimeField(null=True, blank=True)
     subscription_active = models.BooleanField(default=False)
     activation_token = models.UUIDField(default=uuid.uuid4, editable=False)
-
+    subscribed_creators = models.ManyToManyField(
+        "self",
+        symmetrical=False,
+        related_name="subscribers",
+        blank=True,
+    )
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
 
@@ -162,6 +167,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             return self.user_subscriptions.values_list("creator_id", flat=True)
         return []
 
+    def get_followers_ids(self):
+        if not self.is_creator:
+            return self.user_followers.values_list("subscriber_id", flat=True)
+        return []
+
 
 class Subscription(models.Model):
     subscriber = models.ForeignKey(
@@ -176,5 +186,5 @@ class Subscription(models.Model):
         return f"{self.subscriber.email} s'abonne à {self.creator.email}"
 
     class Meta:
-        verbose_name = "Abonnement"  # Nom en français pour le modèle
+        verbose_name = "Abonnement"
         verbose_name_plural = "Abonnements"

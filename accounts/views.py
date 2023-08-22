@@ -90,14 +90,6 @@ class UserDetailsView(APIView):
         # Serializer l'utilisateur pour renvoyer les détails au frontend
         user_serializer = UserSerializer(user)
 
-        # Récupérer les IDs des créateurs auxquels l'utilisateur s'est abonné
-        subscribed_creator_ids = []
-        if not user.is_creator:
-            subscribed_creator_ids = user.get_subscribed_creators_ids()
-
-        # Ajouter les IDs des créateurs abonnés aux détails de l'utilisateur
-        user_serializer.data["subscribed_creators_ids"] = subscribed_creator_ids
-
         response_data = {
             "user_details": user_serializer.data,
         }
@@ -232,10 +224,11 @@ class LoginView(APIView):
         if not user.is_verified:
             return Response(
                 {
-                    "error": "Votre compte n'est pas encore activé. Veuillez vérifier votre boîte e-mail pour activer votre compte."
+                    "error": "Votre compte n'est pas activé. Si vous voyez ce message veuillez activer votre compte ou contactez le support."
                 },
                 status=status.HTTP_403_FORBIDDEN,
             )
+
         # Sérialiser l'utilisateur avec les champs followers_count et subscriptions_count
         user_serializer = UserSerializer(user)
         serialized_user = user_serializer.data
@@ -248,15 +241,6 @@ class LoginView(APIView):
         tokens = {
             "refresh": str(refresh),
             "access": str(refresh.access_token),
-            # "user": {
-            #     "id": user.id,
-            #     "username": user.username,
-            #     "email": user.email,
-            #     "is_creator": user.is_creator,
-            #     "is_verified": user.is_verified,
-            #     "followers_count": user.followers_count,
-            #     "subscriptions_count": user.subscriptions_count,
-            # },
             "user": serialized_user,
         }
 
@@ -427,7 +411,7 @@ class ChangePasswordView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SubscriptionViewSet(viewsets.ReadOnlyModelViewSet):
+class SubscriptionViewSet(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     permission_classes = [IsAuthenticated]
@@ -451,13 +435,13 @@ class SubscriptionViewSet(viewsets.ReadOnlyModelViewSet):
             )
 
         # Vérifier si l'utilisateur est déjà abonné au créateur
-        if Subscription.objects.filter(
-            subscriber=request.user, creator=creator
-        ).exists():
+        if request.user.subscribed_creators.filter(id=creator_id).exists():
             return Response({"message": "Déjà abonné."}, status=status.HTTP_200_OK)
 
         # Créer une instance d'abonnement
         Subscription.objects.create(subscriber=request.user, creator=creator)
+        # Ajouter le créateur aux créateurs abonnés par l'utilisateur
+        request.user.subscribed_creators.add(creator)
 
         return Response(
             {"message": "Abonnement réussi."}, status=status.HTTP_201_CREATED
@@ -473,10 +457,7 @@ class SubscriptionViewSet(viewsets.ReadOnlyModelViewSet):
             )
 
         try:
-            # creator = get_user_model().objects.get(id=creator_id, is_creator=True)
-            creator = get_user_model().objects.get(
-                id=creator_id,
-            )
+            creator = get_user_model().objects.get(id=creator_id)
         except get_user_model().DoesNotExist:
             return Response(
                 {"error": "ID du créateur invalide."}, status=status.HTTP_404_NOT_FOUND
@@ -495,5 +476,9 @@ class SubscriptionViewSet(viewsets.ReadOnlyModelViewSet):
 
         # Supprimer l'abonnement
         subscription.delete()
+        # Retirer le créateur des créateurs abonnés par l'utilisateur
+        request.user.subscribed_creators.remove(creator)
 
         return Response({"message": "Désabonnement réussi."}, status=status.HTTP_200_OK)
+
+    # ... (autres actions)

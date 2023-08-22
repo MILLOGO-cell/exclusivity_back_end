@@ -7,7 +7,11 @@ from django.core.validators import validate_email
 class UserSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField()
     subscriptions_count = serializers.SerializerMethodField()
-    subscribed_creators_ids = serializers.SerializerMethodField()
+    followers_ids = serializers.SerializerMethodField()
+    subscribed_creators = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True,
+    )
 
     def get_followers_count(self, obj):
         return obj.get_followers_count()
@@ -18,7 +22,10 @@ class UserSerializer(serializers.ModelSerializer):
     def get_subscribed_creators_ids(self, obj):
         return obj.get_subscribed_creators_ids()
 
-    def get_subscriptions(self, obj):  # Nouvelle méthode pour récupérer les abonnements
+    def get_followers_ids(self, obj):
+        return obj.get_followers_ids()
+
+    def get_subscriptions(self, obj):
         if obj.is_creator:
             subscriptions = obj.subscriptions.all()
             return SubscriptionSerializer(subscriptions, many=True).data
@@ -46,7 +53,8 @@ class UserSerializer(serializers.ModelSerializer):
             "subscription_active",
             "followers_count",
             "subscriptions_count",
-            "subscribed_creators_ids",
+            "subscribed_creators",
+            "followers_ids",
         )
         extra_kwargs = {
             "image": {"required": False},
