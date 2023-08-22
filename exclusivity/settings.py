@@ -33,9 +33,9 @@ SITE_ID = 1
 CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
 CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "https://web-production-abe3.up.railway.app",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "https://web-production-abe3.up.railway.app",
+]
 
 # Application definition
 
