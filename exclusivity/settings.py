@@ -28,14 +28,14 @@ SWAGGER_SETTINGS = {
 }
 # ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 # ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
 SITE_ID = 1
 CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 # CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "https://web-production-abe3.up.railway.app",
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "https://web-production-abe3.up.railway.app",
+]
 
 # Application definition
 
@@ -94,21 +94,21 @@ WSGI_APPLICATION = "exclusivity.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": config("DB_ENGINE"),
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
-    }
-}
-
-# DATABASE_URL = os.getenv("DATABASE_URL")
 # DATABASES = {
-#     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+#     "default": {
+#         "ENGINE": config("DB_ENGINE"),
+#         "NAME": config("DB_NAME"),
+#         "USER": config("DB_USER"),
+#         "PASSWORD": config("DB_PASSWORD"),
+#         "HOST": config("DB_HOST"),
+#         "PORT": config("DB_PORT"),
+#     }
 # }
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+}
 
 
 # Password validation
