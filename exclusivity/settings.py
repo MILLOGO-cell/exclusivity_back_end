@@ -30,7 +30,10 @@ ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app"]
 CORS_ALLOWED_ORIGINS = ["https://exclusivity-front-end.vercel.app"]
 
 
-CSRF_TRUSTED_ORIGINS = ["https://exclusivity-front-end.vercel.app"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://exclusivity-front-end.vercel.app",
+    "https://exclusivitybackend-production.up.railway.app",
+]
 
 
 INSTALLED_APPS = [
