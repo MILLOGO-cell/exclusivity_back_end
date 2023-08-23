@@ -25,21 +25,12 @@ SWAGGER_SETTINGS = {
 }
 
 
-ALLOWED_HOSTS = [
-    "exclusivity-front-end.vercel.app",
-    "exclusivitybackend-production.up.railway.app",
-]
+ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app"]
 
-CORS_ALLOW_ALL_ORIGINS = False
-
-CORS_ALLOWED_ORIGINS = [
-    "https://exclusivity-front-end.vercel.app",
-]
+CORS_ALLOWED_ORIGINS = ["https://exclusivity-front-end.vercel.app"]
 
 
-CSRF_TRUSTED_ORIGINS = [
-    "exclusivity-front-end.vercel.app",
-]
+CSRF_TRUSTED_ORIGINS = ["https://exclusivity-front-end.vercel.app"]
 
 
 INSTALLED_APPS = [
@@ -120,6 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGES = [
     ("fr", "French"),
