@@ -33,9 +33,7 @@ ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
 
 CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://web-production-abe3.up.railway.app",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 INSTALLED_APPS = [

@@ -174,7 +174,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Subscription(models.Model):
-    subscriber = models.ForeignKey(
+    subriber = models.ForeignKey(
         get_user_model(), related_name="user_subscriptions", on_delete=models.CASCADE
     )
     creator = models.ForeignKey(
