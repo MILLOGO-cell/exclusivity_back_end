@@ -27,6 +27,8 @@ SWAGGER_SETTINGS = {
 
 ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app"]
 
+CORS_ALLOW_ALL_ORIGINS = False
+
 CORS_ALLOWED_ORIGINS = [
     "https://exclusivitybackend-production.up.railway.app",
 ]
