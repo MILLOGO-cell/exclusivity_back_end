@@ -20,24 +20,23 @@ AUTH_USER_MODEL = "accounts.User"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
-# SWAGGER SETTINGS
+
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
 }
-# ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
-SITE_ID = 1
-CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
-CORS_ALLOW_ALL_ORIGINS = True
-# # CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "https://web-production-abe3.up.railway.app",
-# ]
 
-# Application definition
+SITE_ID = 1
+
+ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
+
+CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://web-production-abe3.up.railway.app",
+]
+
 
 INSTALLED_APPS = [
     "jazzmin",
@@ -91,28 +90,11 @@ TEMPLATES = [
 WSGI_APPLICATION = "exclusivity.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": config("DB_ENGINE"),
-#         "NAME": config("DB_NAME"),
-#         "USER": config("DB_USER"),
-#         "PASSWORD": config("DB_PASSWORD"),
-#         "HOST": config("DB_HOST"),
-#         "PORT": config("DB_PORT"),
-#     }
-# }
-
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -130,13 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGES = [
     ("fr", "French"),
-    ("en", "English"),  # Ajoutez d'autres langues si nécessaire
-    # ...
+    ("en", "English"),
 ]
 LANGUAGE_CODE = "fr"
 
@@ -146,10 +124,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -157,9 +131,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 EMAIL_BACKEND = config("EMAIL_BACKEND")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS")
@@ -173,13 +144,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    # "PAGE_SIZE": 10,
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=1440),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
 }
-# JAZZMIN
+
 JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
