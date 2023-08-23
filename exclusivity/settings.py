@@ -5,17 +5,14 @@ from dotenv import load_dotenv
 from .jazzmin import JAZZMIN_SETTINGS
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, ".env"))
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 
-# Auth config +
+SITE_ID = 1
 AUTH_USER_MODEL = "accounts.User"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
@@ -27,13 +24,15 @@ SWAGGER_SETTINGS = {
     }
 }
 
-SITE_ID = 1
 
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
+ALLOWED_HOSTS = ["exclusivitybackend-production-d8f3.up.railway.app"]
 
-CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
+CORS_ALLOWED_ORIGINS = [
+    "https://exclusivitybackend-production-d8f3.up.railway.app",
+]
 
-CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = ["https://exclusivitybackend-production-d8f3.up.railway.app"]
 
 
 INSTALLED_APPS = [
@@ -88,11 +87,14 @@ TEMPLATES = [
 WSGI_APPLICATION = "exclusivity.wsgi.application"
 
 
+# Database
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
 
+
+# Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,10 +112,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Internationalization
+
 LANGUAGES = [
     ("fr", "French"),
     ("en", "English"),
 ]
+
 LANGUAGE_CODE = "fr"
 
 TIME_ZONE = "UTC"
@@ -122,6 +127,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Static files (CSS, JavaScript, Images)
+
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -129,6 +137,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 
 EMAIL_BACKEND = config("EMAIL_BACKEND")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS")
