@@ -25,16 +25,20 @@ SWAGGER_SETTINGS = {
 }
 
 
-ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app"]
+ALLOWED_HOSTS = [
+    "exclusivity-front-end.vercel.app",
+]
 
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
-    "https://exclusivitybackend-production.up.railway.app",
+    "https://exclusivity-front-end.vercel.app",
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ["https://exclusivitybackend-production.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = [
+    "exclusivity-front-end.vercel.app",
+]
 
 
 INSTALLED_APPS = [
