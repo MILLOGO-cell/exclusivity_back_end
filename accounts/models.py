@@ -74,12 +74,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     subscription_expiry = models.DateTimeField(null=True, blank=True)
     subscription_active = models.BooleanField(default=False)
     activation_token = models.UUIDField(default=uuid.uuid4, editable=False)
-    # subscribed_creators = models.ManyToManyField(
-    #     "self",
-    #     symmetrical=False,
-    #     related_name="subscribers",
-    #     blank=True,
-    # )
+    subscribed_creators = models.ManyToManyField(
+        "self",
+        symmetrical=False,
+        related_name="subscribers",
+        blank=True,
+    )
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
 
@@ -174,7 +174,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Subscription(models.Model):
-    subriber = models.ForeignKey(
+    subscriber = models.ForeignKey(
         get_user_model(), related_name="user_subscriptions", on_delete=models.CASCADE
     )
     creator = models.ForeignKey(
