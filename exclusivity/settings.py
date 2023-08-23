@@ -29,13 +29,21 @@ SWAGGER_SETTINGS = {
 
 SITE_ID = 1
 
-ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
+ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app/"]
 
-CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://exclusivitybackend-production.up.railway.app/"]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://web-production-abe3.up.railway.app",
+    "https://exclusivitybackend-production.up.railway.app/",
 ]
+
+# ALLOWED_HOSTS = ["web-production-abe3.up.railway.app"]
+
+# CSRF_TRUSTED_ORIGINS = ["https://web-production-abe3.up.railway.app"]
+
+# CORS_ALLOWED_ORIGINS = [
+#     "https://web-production-abe3.up.railway.app",
+# ]
 
 
 INSTALLED_APPS = [
