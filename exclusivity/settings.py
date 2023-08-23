@@ -25,14 +25,14 @@ SWAGGER_SETTINGS = {
 }
 
 
-ALLOWED_HOSTS = ["exclusivitybackend-production-d8f3.up.railway.app"]
+ALLOWED_HOSTS = ["exclusivitybackend-production.up.railway.app"]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://exclusivitybackend-production-d8f3.up.railway.app",
+    "https://exclusivitybackend-production.up.railway.app",
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ["https://exclusivitybackend-production-d8f3.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://exclusivitybackend-production.up.railway.app"]
 
 
 INSTALLED_APPS = [
