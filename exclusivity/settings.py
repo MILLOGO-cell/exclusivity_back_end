@@ -27,6 +27,7 @@ SWAGGER_SETTINGS = {
 
 ALLOWED_HOSTS = [
     "exclusivity-front-end.vercel.app",
+    "exclusivitybackend-production.up.railway.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
